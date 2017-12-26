@@ -1,15 +1,12 @@
-Shardbatis的名称由shard(ing)+mybatis组合得到。诣在为ibatis实现数据水平切分的功能。
+# Shardbatis  mybatis实现数据水平切分的功能源码
+
+数据的水平切分包括多数据库的切分和多表的数据切分。目前shardbatis已经实现了单数据库的数据多表水平切分。<br/>
+Shardbatis2.0可以以插件的方式和mybatis3.x进行整合，对mybatis的代码无侵入，不改变用户对mybatis的使用习惯。<br/>
+shardbatis的使用与原生的mybatis3没有区别，使用者只需要将shardbatis以Mybatis插件的方式引入进来，实现路由策略接口，<br/>
+实现自己的路由策略即可，此外还需要一个shard_config.xm配置文件，定义哪些sql映射操作需要使用路由策略。<br/>
 
 
-
-
-数据的水平切分包括多数据库的切分和多表的数据切分。目前shardbatis已经实现了单数据库的数据多表水平切分。
-Shardbatis2.0可以以插件的方式和mybatis3.x进行整合，对mybatis的代码无侵入，不改变用户对mybatis的使用习惯。
-shardbatis的使用与原生的mybatis3没有区别，使用者只需要将shardbatis以Mybatis插件的方式引入进来，实现路由策略接口，
-实现自己的路由策略即可，此外还需要一个shard_config.xm配置文件，定义哪些sql映射操作需要使用路由策略。
-
-
-maven配置：
+1、maven配置：
 主pom中添加
 <shardbatis.version>2.0.0B</shardbatis.version>
 <jsqlparser.version>0.7.0</jsqlparser.version>
@@ -30,7 +27,7 @@ dao和web模块pom中添加:
 
 
 
-3.添加sharding配置
+2.添加sharding配置
 新建一个xml文件,例如：shard_config.xml
 
 
@@ -62,7 +59,7 @@ dao和web模块pom中添加:
 </shardingConfig>
 
 
-4.接口实现类,实现一个简单的接口即可,实现自己的sharding策略：
+3.接口实现类,实现一个简单的接口即可,实现自己的sharding策略：
 import com.google.code.shardbatis.strategy.ShardStrategy;
 /**
          * 得到实际表名
@@ -80,7 +77,7 @@ return sTableName;
 }
 
 
-5.在mybatis配置文件中添加插件配置:
+4.在mybatis配置文件中添加插件配置:
 <plugins>
 <plugin interceptor="com.google.code.shardbatis.plugin.ShardPlugin">
 <property name="shardingConfig" value="shard_config.xml"/>
