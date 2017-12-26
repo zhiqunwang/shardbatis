@@ -1,4 +1,8 @@
 Shardbatis的名称由shard(ing)+mybatis组合得到。诣在为ibatis实现数据水平切分的功能。
+
+
+
+
 数据的水平切分包括多数据库的切分和多表的数据切分。目前shardbatis已经实现了单数据库的数据多表水平切分。
 Shardbatis2.0可以以插件的方式和mybatis3.x进行整合，对mybatis的代码无侵入，不改变用户对mybatis的使用习惯。
 shardbatis的使用与原生的mybatis3没有区别，使用者只需要将shardbatis以Mybatis插件的方式引入进来，实现路由策略接口，
@@ -31,8 +35,17 @@ dao和web模块pom中添加:
 
 
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE shardingConfig PUBLIC "-//shardbatis.googlecode.com//DTD Shardbatis 2.0//EN"
-  "http://shardbatis.googlecode.com/dtd/shardbatis-config.dtd">
+<!DOCTYPE shardingConfig [
+        <!ELEMENT shardingConfig (ignoreList?,parseList?,strategy*)>
+        <!ELEMENT ignoreList (value+)>
+        <!ELEMENT parseList (value+)>
+        <!ELEMENT value (#PCDATA)>
+        <!ELEMENT strategy EMPTY>
+        <!ATTLIST strategy
+                tableName CDATA #REQUIRED
+                strategyClass CDATA #REQUIRED
+                >
+        ]>
 <shardingConfig>
         <!--
                 parseList可选配置
